@@ -1,6 +1,7 @@
 import sqlite3
 import os
 
+
 #	Input:	n/a
 #	Return:	db_connect(db_name) (sqlite3.connect())
 #	Desc:	Use to initiate a new SQLite3 database and returns a sqlite3.connect() 
@@ -16,6 +17,7 @@ def db_init():
 	
 	return db_connect(db_name)
 	
+	
 #	Input:	db_name (String)
 #	Return:	connection (sqlite3.connect())
 #	Desc:	Connects to the name of the database that you has been specified.
@@ -25,9 +27,10 @@ def db_connect(db_name):
 	
 	connection = sqlite3.connect('.\\DB\\' + db_name + '.db')
 	
-	print("Connection returned")
+	print("Connected")
 	
 	return connection
+
 
 #	Input:	connection (sqlite3.connect())
 #	Return:	n/a 
@@ -38,7 +41,7 @@ def create_table(connection):
 	cursor = connection.cursor()
 	
 	while True:
-		table_name = input('Type table name')
+		table_name = input('Type table name:')
 		
 		if table_name[0].isnumeric():
 			
@@ -57,14 +60,22 @@ def create_table(connection):
 	
 	for i in range(len(attribute_list)):
 		
-		option = input('Enter type and optional arguments for attribute :' + attribute_list[i])
+		option = input('Enter type and optional arguments for attribute: ' + attribute_list[i])
 		
-		attribute_list[i]
+		attribute_list[i] = attribute_list[i] + ' ' + option
 	
-	primary_key = attribute_list[0]
-	other_attribute = attribute_list[1:]
+	sql = 'CREATE TABLE IF NOT EXISTS' + table_name + '(' + attribute_list.join(' ,') + ')'
+
+	cursor.execute(sql)
 	
-	sql = 'CREATE TABLE ' + table_name + primary_key + ' NOT NULL' + 
+	connection.commit()
+	
+
+def add_data(connection):
+
+def delete_row(connection):
+
+def search_table(connection):
 
 if __name__ == '__main__':
 	db_init()
