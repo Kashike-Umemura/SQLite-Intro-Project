@@ -87,7 +87,15 @@ def add_data(connection, table_name):
 #def search_table(connection):
 
 
-#def get_tables():
+def get_tables(connection):
+
+	sql = "SELECT name FROM sqlite_master WHERE type='table';"
+
+	cursor = connection.cursor()
+
+	table_list = cursor.execute(sql).fetchall()
+
+	return table_list
 
 
 def get_cols(connection, table_name):
@@ -96,9 +104,11 @@ def get_cols(connection, table_name):
 
 	names = list(map(lambda x: x[0], cursor.description))
 
+	return names
+
 
 if __name__ == '__main__':
 	#connect = db_init()
 	#create_table(connect)
 	connect = db_connect('test')
-	add_data(connect, 'fist')
+	get_tables(connect)
