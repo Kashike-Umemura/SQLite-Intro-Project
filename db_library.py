@@ -17,7 +17,7 @@ def db_init():
 	
 	return db_connect(db_name)
 	
-	
+
 #	Input:	db_name (String)
 #	Return:	connection (sqlite3.connect())
 #	Desc:	Connects to the name of the database that you has been specified.
@@ -52,9 +52,10 @@ def create_table(connection):
 		
 			break
 	
-	table_name = table_name.split().join('_')
+	table_name = '_'.join(table_name.split())
 	
-	table_attributes = input('Type the attributes of the table, separated by a blank space, with the first one being it\'s primary key:')
+	table_attributes = input('Type the attributes of the table, separated by a blank space, with the first one being '
+							 'it\'s primary key:')
 	
 	attribute_list = table_attributes.split()
 	
@@ -64,18 +65,40 @@ def create_table(connection):
 		
 		attribute_list[i] = attribute_list[i] + ' ' + option
 	
-	sql = 'CREATE TABLE IF NOT EXISTS' + table_name + '(' + attribute_list.join(' ,') + ')'
+	sql = 'CREATE TABLE IF NOT EXISTS ' + table_name + '(' + ' ,'.join(attribute_list) + ')'
 
 	cursor.execute(sql)
 	
 	connection.commit()
 	
 
-def add_data(connection):
+def add_data(connection, table_name):
 
-def delete_row(connection):
+	cursor = connection.execute("SELECT * FROM " + table_name)
 
-def search_table(connection):
+	names = list(map(lambda x: x[0], cursor.description))
+
+	print(names)
+
+
+#def delete_row(connection):
+
+
+#def search_table(connection):
+
+
+#def get_tables():
+
+
+def get_cols(connection, table_name):
+
+	cursor = connection.execute("SELECT * FROM " + table_name)
+
+	names = list(map(lambda x: x[0], cursor.description))
+
 
 if __name__ == '__main__':
-	db_init()
+	#connect = db_init()
+	#create_table(connect)
+	connect = db_connect('test')
+	add_data(connect, 'fist')
