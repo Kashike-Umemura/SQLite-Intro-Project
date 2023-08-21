@@ -74,11 +74,26 @@ def create_table(connection):
 
 def add_data(connection, table_name):
 
-	cursor = connection.execute("SELECT * FROM " + table_name)
-
-	names = list(map(lambda x: x[0], cursor.description))
-
-	print(names)
+	cursor = connection.cursor()
+	
+	col_names = get_cols(connection, table_name)
+	
+	number_of_col = len(col_names)
+	
+	var = '(' + ('?, '*number_of_col)[:-2] + ')'
+	col_id = '(' + ' ,'.join(col_names) + ')'
+	
+	print(col_id)
+	print(var)
+	
+	data = input('Please input data in the following order: ' + col_id)
+	data = data.split(', ')
+	for i in range(len(data)):
+		if data[i].isnumeric():
+			data[i] = int(data[i])
+			
+	print(data)
+	#cursor.execute 
 
 
 #def delete_row(connection):
@@ -111,4 +126,5 @@ if __name__ == '__main__':
 	#connect = db_init()
 	#create_table(connect)
 	connect = db_connect('test')
-	get_tables(connect)
+	print(get_tables(connect))
+	add_data(connect, 'first')
