@@ -80,20 +80,30 @@ def add_data(connection, table_name):
 	
 	number_of_col = len(col_names)
 	
-	var = '(' + ('?, '*number_of_col)[:-2] + ')'
-	col_id = '(' + ' ,'.join(col_names) + ')'
+	var = '(?' + ', ?'*(number_of_col - 2) + ')'
+	col_id = '(' + ' ,'.join(col_names[1:]) + ')'
 	
-	print(col_id)
-	print(var)
-	
-	data = input('Please input data in the following order: ' + col_id)
+	data = input('Please input data in the following order: ' + col_id + ' with no brackets')
 	data = data.split(', ')
 	for i in range(len(data)):
+	
 		if data[i].isnumeric():
+		
 			data[i] = int(data[i])
 			
-	print(data)
-	#cursor.execute 
+		elif ('.' in data[i]):
+		
+			data[i] = float(data[i])
+			
+			
+	
+	data = tuple(data)
+	
+	sql = "INSERT INTO " + table_name + " " + col_id + " VALUES " + var
+	
+	cursor.execute(sql, data)
+	
+	connection.commit()
 
 
 #def delete_row(connection):
@@ -120,11 +130,11 @@ def get_cols(connection, table_name):
 	names = list(map(lambda x: x[0], cursor.description))
 
 	return names
-
-
+	
 if __name__ == '__main__':
 	#connect = db_init()
-	#create_table(connect)
 	connect = db_connect('test')
-	print(get_tables(connect))
-	add_data(connect, 'first')
+	
+	#create_table(connect)
+	#print(get_tables(connect))
+	add_data(connect, 'second')
