@@ -71,7 +71,11 @@ def create_table(connection):
 	
 	connection.commit()
 	
-
+#	Input: 	connection (sqlite3.connect()); table_name (string)
+#	Return:	n/a
+#	Desc:	Adds data to an table that exists, if table does not exist must be initialized first. Data must be inputted in the form of:
+#				data1, data2, data3, ... , datan
+#			Where n is the last attribute of the table. 
 def add_data(connection, table_name):
 
 	cursor = connection.cursor()
@@ -111,7 +115,9 @@ def add_data(connection, table_name):
 
 #def search_table(connection):
 
-
+#	Input:	connection (sqlite3.connect())
+#	Output:	table_list (list)
+#	Desc:	Returns a list of all table names in the database that it you are currently connected to.
 def get_tables(connection):
 
 	sql = "SELECT name FROM sqlite_master WHERE type='table';"
@@ -122,7 +128,9 @@ def get_tables(connection):
 
 	return table_list
 
-
+#	Input:	connection (sqlite3.connect()); table_name (string)
+#	Output:	names (list)
+# 	Desc:	Returns a list of attribute (column) names in the table that table_name contains.
 def get_cols(connection, table_name):
 
 	cursor = connection.execute("SELECT * FROM " + table_name)
@@ -132,9 +140,9 @@ def get_cols(connection, table_name):
 	return names
 	
 if __name__ == '__main__':
-	#connect = db_init()
-	connect = db_connect('test')
+	connect = db_init()
+	#connect = db_connect('test')
 	
-	#create_table(connect)
+	create_table(connect)
 	#print(get_tables(connect))
 	add_data(connect, 'second')
