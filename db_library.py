@@ -110,10 +110,33 @@ def add_data(connection, table_name):
 	connection.commit()
 
 
-#def delete_row(connection):
+def delete_row(connection):
+	
+	info = input("Please input table name, attribute name and deletion criteria.")
+	info = info.split(", ")
+	
+	sql = "DELETE FROM " + info[0] + " WHERE " + info[1] + "=?"
+	
+	cursor = connection.cursor()
+	
+	cursor.execute(sql, (info[2],))
+	
+	cusor.commit()
+	
+	print("Rows with " + info[1] + " as " + info[2] + " has been deleted from table" + info[0] + ".")
 
-
-#def search_table(connection):
+def search_table(connection):
+	
+	param = input("Please type the table name and the parameters that you would like to search by:")
+	
+	sql = "SELECT * FROM " + param
+	
+	cusor = connection.cursor()
+	
+	rows = cursor.execute(sql).fetchall()
+	
+	for row in rows:
+		print(row)
 
 #	Input:	connection (sqlite3.connect())
 #	Output:	table_list (list)
@@ -138,11 +161,3 @@ def get_cols(connection, table_name):
 	names = list(map(lambda x: x[0], cursor.description))
 
 	return names
-	
-if __name__ == '__main__':
-	connect = db_init()
-	#connect = db_connect('test')
-	
-	create_table(connect)
-	#print(get_tables(connect))
-	add_data(connect, 'second')
