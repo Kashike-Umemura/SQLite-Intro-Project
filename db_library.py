@@ -109,7 +109,9 @@ def add_data(connection, table_name):
 	
 	connection.commit()
 
-
+#	Input:	connection (sqlite3.connect())
+#	Output: n/a
+#	Desc:	Deletes the rows that corresponds to the information that was given.
 def delete_row(connection):
 	
 	info = input("Please input table name, attribute name and deletion criteria.")
@@ -125,6 +127,9 @@ def delete_row(connection):
 	
 	print("Rows with " + info[1] + " as " + info[2] + " has been deleted from table" + info[0] + ".")
 
+#	Input:	connection (sqlite3.connect())
+#	Output: string
+#	Desc:	Prints all rows in the table that corresponds to the parameters that were given as input.
 def search_table(connection):
 	
 	param = input("Please type the table name and the parameters that you would like to search by:")
