@@ -166,3 +166,14 @@ def get_cols(connection, table_name):
 	names = list(map(lambda x: x[0], cursor.description))
 
 	return names
+
+#	Input:	connection (sqlite3.connect()); table_name (string)
+#	Output:	n/a
+#	Desc: 	Deletes the table that the user specifize from the database.
+def drop(connection):
+	
+	table_name = input("Please type the name of the table to drop:")
+	
+	cursor = connection.execute("DROP TABLE " + table_name)
+	
+	print(table_name + "has been dropped!")
