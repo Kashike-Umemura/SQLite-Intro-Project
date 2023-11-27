@@ -41,7 +41,7 @@ def create_table(connection):
 	cursor = connection.cursor()
 	
 	while True:
-		table_name = input('Type table name:')
+		table_name = input('Type table name: ')
 		
 		if table_name[0].isnumeric():
 			
@@ -55,7 +55,7 @@ def create_table(connection):
 	table_name = '_'.join(table_name.split())
 	
 	table_attributes = input('Type the attributes of the table, separated by a blank space, with the first one being '
-							 'it\'s primary key:')
+							 'it\'s primary key: ')
 	
 	attribute_list = table_attributes.split()
 	
@@ -76,8 +76,10 @@ def create_table(connection):
 #	Desc:	Adds data to an table that exists, if table does not exist must be initialized first. Data must be inputted in the form of:
 #				data1, data2, data3, ... , datan
 #			Where n is the last attribute of the table. 
-def add_data(connection, table_name):
-
+def add_data(connection):
+	
+	table_name = input("Which table do you want to add data to? \n")
+	
 	cursor = connection.cursor()
 	
 	col_names = get_cols(connection, table_name)
@@ -114,7 +116,7 @@ def add_data(connection, table_name):
 #	Desc:	Deletes the rows that corresponds to the information that was given.
 def delete_row(connection):
 	
-	info = input("Please input table name, attribute name and deletion criteria.")
+	info = input("Please input table name, attribute name and deletion criteria. ")
 	info = info.split(", ")
 	
 	sql = "DELETE FROM " + info[0] + " WHERE " + info[1] + "=?"
@@ -125,14 +127,14 @@ def delete_row(connection):
 	
 	cusor.commit()
 	
-	print("Rows with " + info[1] + " as " + info[2] + " has been deleted from table" + info[0] + ".")
+	print("Rows with " + info[1] + " as " + info[2] + " has been deleted from table " + info[0] + ".")
 
 #	Input:	connection (sqlite3.connect())
 #	Output: string
 #	Desc:	Prints all rows in the table that corresponds to the parameters that were given as input.
 def search_table(connection):
 	
-	param = input("Please type the table name and the parameters that you would like to search by:")
+	param = input("Please type the table name and the parameters that you would like to search by: ")
 	
 	sql = "SELECT * FROM " + param
 	
@@ -159,8 +161,10 @@ def get_tables(connection):
 #	Input:	connection (sqlite3.connect()); table_name (string)
 #	Output:	names (list)
 # 	Desc:	Returns a list of attribute (column) names in the table that table_name contains.
-def get_cols(connection, table_name):
-
+def get_cols(connection):
+	
+	table_name = input("Which table's columns do you want to see? \n")
+	
 	cursor = connection.execute("SELECT * FROM " + table_name)
 
 	names = list(map(lambda x: x[0], cursor.description))
@@ -172,7 +176,7 @@ def get_cols(connection, table_name):
 #	Desc: 	Deletes the table that the user specifize from the database.
 def drop(connection):
 	
-	table_name = input("Please type the name of the table to drop:")
+	table_name = input("Please type the name of the table to drop: ")
 	
 	cursor = connection.execute("DROP TABLE " + table_name)
 	
